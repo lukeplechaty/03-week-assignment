@@ -2,8 +2,11 @@
 
 ## Reflection
 
+<img src="phone-main.jpg" alt="phone main" width=200/> <img alt="phone upgrade" src="phone-upgrade.jpg" width=200/> <img alt="phone options" src="phone-options.jpg" width=200/>
+<img src="desktop.png" alt="desktop"/>
+
 - basic requirements
-  ![phone main](phone-main.jpg) ![phone upgrade](phone-upgrade.jpg) ![phone options](phone-options)
+
 - stretch goals
 
 ## References
