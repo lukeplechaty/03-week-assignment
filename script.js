@@ -5,6 +5,8 @@ let CPS = 0;
 
 load(); //load save data
 
+const main = document.getElementById("cookie-main");
+const settings = document;
 const shops = document.getElementById("upgrades");
 async function getShop() {
   const rawData = await fetch(
@@ -19,8 +21,8 @@ async function getShop() {
     shopBtn.textContent = element.name;
     shopBtn.addEventListener("click", () => {
       if (cookies >= element.cost) {
-        CPS = CPS + element.increase;
-        cookies = cookies - element.cost;
+        CPS += element.increase;
+        cookies -= element.cost;
         save();
       }
     });
@@ -44,7 +46,7 @@ setInterval(() => {
 }, 0); //text update
 
 setInterval(() => {
-  cookies = cookies + CPS;
+  cookies += CPS;
 }, 1000); //1min auto CPS
 
 setInterval(() => {
@@ -74,3 +76,9 @@ resetBtn.addEventListener("click", () => {
   cookies = 0;
   CPS = 0;
 }); //reset button
+
+const shopBtn = document.getElementById("upgrades-bar");
+shopBtn.addEventListener("click", () => {});
+
+const settingsBtn = document.getElementById("settings-bar");
+settingsBtn.addEventListener("click", () => {});
