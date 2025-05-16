@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cookle clicker</title>
+    <script src="./script.js" defer></script>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js" type="module" defer></script>
   </head>
   <body>
     <button id="upgrades-btn">Shop</button>
@@ -24,6 +24,15 @@
     <div id="settings">
       <button id="save-btn">Save</button>
       <button id="reset-btn">Reset</button>
+      <label for="sound-volume">Volume</label>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="75"
+        name="sound-volume"
+        id="sound-volume"
+      />
     </div>
     <div id="popup"></div>
   </body>
