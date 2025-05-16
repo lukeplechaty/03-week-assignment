@@ -3,8 +3,6 @@ console.log("hi");
 let cookies = 0;
 let CPS = 0;
 
-load(); //load save data
-
 const cookiesText = document.getElementById("cookies");
 const CPSText = document.getElementById("CPS");
 
@@ -18,6 +16,13 @@ const settingsBtn = document.getElementById("settings-btn");
 const cookieBtn = document.getElementById("cookie-btn");
 const saveBtn = document.getElementById("save-btn");
 const resetBtn = document.getElementById("reset-btn");
+
+const soundVolume = document.getElementById("sound-volume");
+
+const clickSound = new Audio(`click.ogg`);
+
+load(); //load local save data
+getShop(); //load all shops
 
 async function getShop() {
   const rawData = await fetch(
@@ -34,6 +39,7 @@ async function getShop() {
     shopBtn.textContent = element.name;
     shopBtn.addEventListener("click", () => {
       if (cookies >= element.cost) {
+        clickSound.play();
         CPS += element.increase;
         cookies -= element.cost;
         doPopup(`${element.increase} added to CPS`);
@@ -55,10 +61,10 @@ async function getShop() {
     shops.appendChild(shop);
   });
 } //API call and setup
-getShop();
 
 cookieBtn.addEventListener("click", () => {
   cookies++;
+  clickSound.play();
 }); //user add cookie to cookies
 
 setInterval(() => {
@@ -72,27 +78,34 @@ setInterval(() => {
 
 setInterval(() => {
   save();
-  doPopup(`game has saved`);
+  doPopup(`auto saved`);
 }, 300000); //5min auto asve
 
 function save() {
   localStorage.setItem("cookies", cookies);
   localStorage.setItem("CPS", CPS);
+  localStorage.setItem("volume", clickSound.volume);
 } //local save
 
 function load() {
   try {
     cookies = JSON.parse(localStorage.getItem("cookies")) || 0;
     CPS = JSON.parse(localStorage.getItem("CPS")) || 0;
-  } catch (e) {}
+    clickSound.volume = JSON.parse(localStorage.getItem("volume")) || 0.75;
+    soundVolume.value = clickSound.volume * 100;
+  } catch (e) {
+    console.log(`load error: `, e);
+  }
 } //local load
 
 saveBtn.addEventListener("click", () => {
+  clickSound.play();
   save();
   doPopup(`game has saved`);
 }); //save botton
 
 resetBtn.addEventListener("click", () => {
+  clickSound.play();
   localStorage.clear();
   cookies = 0;
   CPS = 0;
@@ -100,6 +113,7 @@ resetBtn.addEventListener("click", () => {
 }); //reset button
 
 shopBtn.addEventListener("click", () => {
+  clickSound.play();
   if (shops.style.visibility === "hidden") {
     shops.style.visibility = "visible";
     settingsBtn.style.visibility = "hidden";
@@ -109,9 +123,11 @@ shopBtn.addEventListener("click", () => {
     settingsBtn.style.visibility = "visible";
     main.style.visibility = "visible";
   }
+  $(`#upgrades`).css("visibility", "hidden");
 }); //shop button toggle display
 
 settingsBtn.addEventListener("click", () => {
+  clickSound.play();
   if (settings.style.visibility === "hidden") {
     settings.style.visibility = "visible";
     shopBtn.style.visibility = "hidden";
@@ -122,6 +138,11 @@ settingsBtn.addEventListener("click", () => {
     main.style.visibility = "visible";
   }
 }); //setting button toggle display
+
+soundVolume.addEventListener("input", () => {
+  clickSound.volume = soundVolume.value / 100;
+  save();
+});
 
 function doPopup(text) {
   const popupText = document.createElement("p");
