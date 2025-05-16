@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cookle clicker</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js" defer></script>
+    <script src="./script.js" type="module" defer></script>
   </head>
   <body>
+    <button id="upgrades-btn">Shop</button>
+    <button id="settings-btn">Settings</button>
     <div id="cookie-main">
       <p id="cookies">Cookies: 0</p>
       <p id="CPS">CPS: 0</p>
-      <button id="cookie-btn">
-        <img
-          src="https://img.freepik.com/free-psd/baking-delicious-chocolate-chip-cookies-isolated-transparent-background_191095-16881.jpg?semt=ais_hybrid&w=740"
-          alt="Cookie"
-          width="200"
-        />
-      </button>
-      <button id="upgrades-bar">Shop</button>
-      <button id="settings-bar">Settings</button>
+      <img
+        id="cookie-btn"
+        src="https://img.freepik.com/free-psd/baking-delicious-chocolate-chip-cookies-isolated-transparent-background_191095-16881.jpg?semt=ais_hybrid&w=740"
+        alt="Cookie"
+        width="200"
+      />
     </div>
     <div id="upgrades"></div>
     <div id="settings">
-      <button id="save">Save</button>
-      <button id="reset">Reset</button>
+      <button id="save-btn">Save</button>
+      <button id="reset-btn">Reset</button>
     </div>
+    <div id="popup"></div>
   </body>
 </html>

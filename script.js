@@ -5,9 +5,20 @@ let CPS = 0;
 
 load(); //load save data
 
+const cookiesText = document.getElementById("cookies");
+const CPSText = document.getElementById("CPS");
+
 const main = document.getElementById("cookie-main");
-const settings = document;
+const settings = document.getElementById("settings");
 const shops = document.getElementById("upgrades");
+const popup = document.getElementById("popup");
+
+const shopBtn = document.getElementById("upgrades-btn");
+const settingsBtn = document.getElementById("settings-btn");
+const cookieBtn = document.getElementById("cookie-btn");
+const saveBtn = document.getElementById("save-btn");
+const resetBtn = document.getElementById("reset-btn");
+
 async function getShop() {
   const rawData = await fetch(
     "https://cookie-upgrade-api.vercel.app/api/upgrades"
@@ -16,30 +27,40 @@ async function getShop() {
   jsonData.forEach((element) => {
     const shop = document.createElement("div");
     const shopBtn = document.createElement("button");
-    const shopText = document.createElement("p");
-    shopText.textContent = `Price: ${element.cost}\r\nCPS: ${element.increase}`;
+    const shopCostText = document.createElement("p");
+    const shopCPSText = document.createElement("p");
+
+    shopBtn.className = `shop-btn`;
     shopBtn.textContent = element.name;
     shopBtn.addEventListener("click", () => {
       if (cookies >= element.cost) {
         CPS += element.increase;
         cookies -= element.cost;
+        doPopup(`${element.increase} added to CPS`);
         save();
       }
     });
+
+    shopCostText.className = `shop-cost`;
+    shopCostText.textContent = `Price: ${element.cost}`;
+
+    shopCPSText.className = `shop-CPS`;
+    shopCPSText.textContent = `CPS: ${element.increase}`;
+
+    shop.className = `shop`;
+
     shop.appendChild(shopBtn);
-    shop.appendChild(shopText);
+    shop.appendChild(shopCostText);
+    shop.appendChild(shopCPSText);
     shops.appendChild(shop);
   });
 } //API call and setup
 getShop();
 
-const cookieBtn = document.getElementById("cookie-btn");
 cookieBtn.addEventListener("click", () => {
   cookies++;
 }); //user add cookie to cookies
 
-const cookiesText = document.getElementById("cookies");
-const CPSText = document.getElementById("CPS");
 setInterval(() => {
   cookiesText.textContent = `Cookies: ${cookies}`;
   CPSText.textContent = `CPS: ${CPS}`;
@@ -51,6 +72,7 @@ setInterval(() => {
 
 setInterval(() => {
   save();
+  doPopup(`game has saved`);
 }, 300000); //5min auto asve
 
 function save() {
@@ -65,20 +87,48 @@ function load() {
   } catch (e) {}
 } //local load
 
-const saveBtn = document.getElementById("save");
 saveBtn.addEventListener("click", () => {
   save();
+  doPopup(`game has saved`);
 }); //save botton
 
-const resetBtn = document.getElementById("reset");
 resetBtn.addEventListener("click", () => {
   localStorage.clear();
   cookies = 0;
   CPS = 0;
+  doPopup(`game has reset`);
 }); //reset button
 
-const shopBtn = document.getElementById("upgrades-bar");
-shopBtn.addEventListener("click", () => {});
+shopBtn.addEventListener("click", () => {
+  if (shops.style.visibility === "hidden") {
+    shops.style.visibility = "visible";
+    settingsBtn.style.visibility = "hidden";
+    main.style.visibility = "hidden";
+  } else {
+    shops.style.visibility = "hidden";
+    settingsBtn.style.visibility = "visible";
+    main.style.visibility = "visible";
+  }
+}); //shop button toggle display
 
-const settingsBtn = document.getElementById("settings-bar");
-settingsBtn.addEventListener("click", () => {});
+settingsBtn.addEventListener("click", () => {
+  if (settings.style.visibility === "hidden") {
+    settings.style.visibility = "visible";
+    shopBtn.style.visibility = "hidden";
+    main.style.visibility = "hidden";
+  } else {
+    settings.style.visibility = "hidden";
+    shopBtn.style.visibility = "visible";
+    main.style.visibility = "visible";
+  }
+}); //setting button toggle display
+
+function doPopup(text) {
+  const popupText = document.createElement("p");
+  popupText.textContent = text;
+  const firstChild = popup.firstChild;
+  popup.insertBefore(popupText, firstChild);
+  setTimeout(() => {
+    popup.removeChild(popupText);
+  }, 5000);
+}
