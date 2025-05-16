@@ -17,13 +17,6 @@ const cookieBtn = document.getElementById("cookie-btn");
 const saveBtn = document.getElementById("save-btn");
 const resetBtn = document.getElementById("reset-btn");
 
-const soundVolume = document.getElementById("sound-volume");
-
-const clickSound = new Audio(`./click.ogg`);
-
-load(); //load local save data
-getShop(); //load all shops
-
 async function getShop() {
   const rawData = await fetch(
     "https://cookie-upgrade-api.vercel.app/api/upgrades"
@@ -138,11 +131,6 @@ settingsBtn.addEventListener("click", () => {
     main.style.visibility = "visible";
   }
 }); //setting button toggle display
-
-soundVolume.addEventListener("input", () => {
-  clickSound.volume = soundVolume.value / 100;
-  save();
-}); //volume control
 
 function doPopup(text) {
   const popupText = document.createElement("p");
